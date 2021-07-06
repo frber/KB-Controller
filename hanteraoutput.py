@@ -13,7 +13,7 @@ class HanteraOutput:
         self.wb_berperdata = wb_berperdata
         self.berperdata = berperdata
         self.ws_avvikelser = self.wb_berperdata["Avvikelser"]
-        self.ws_avvikelser2 = self.wb_berperdata["Avvikelser2"]
+        #self.ws_avvikelser2 = self.wb_berperdata["Avvikelser2"]
         self.ws_kommentar = self.wb_berperdata["Alla Berper"]
         self.ws_ejberper = self.wb_berperdata["Filer som ej bedöms vara berper"]
         self.ws_trasiga = self.wb_berperdata['Excelfiler som ej kunde öppnas']
@@ -41,7 +41,7 @@ class HanteraOutput:
 
         self.alla_berper()
         self.avvikelser()
-        self.avvikelser_tva()
+        #self.avvikelser_tva()
 
 
 
