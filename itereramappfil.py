@@ -12,10 +12,12 @@ from hanteralistor import *
 class ItereraMappFil:
 
 
-    def __init__(self, filvag_ebokslut):
+    def __init__(self, filvag_ebokslut, label_kontrollerad_fil, label_antal_fil):
 
         self.filvag_ebokslut = filvag_ebokslut
         self.filvag_ebokslut = self.filvag_ebokslut.get()
+        self.label_kontrollerad_fil = label_kontrollerad_fil
+        self.label_antal_fil = label_antal_fil
         self.iterera()
 
 
@@ -45,6 +47,10 @@ class ItereraMappFil:
             lista_trasiga_filer = []
             lista_for_stora_excelfiler = []
 
+            # Counter för antal kontrollerader berper
+            rakna_berper = 0
+
+
             for root, dirs, files in os.walk(self.filvag_ebokslut):
                 for fil in files:
                     utvardera_fil = UtvarderaFil(root, fil)
@@ -63,10 +69,13 @@ class ItereraMappFil:
                         if sheet != None:
                             lista_berpers.append(filplats)
                             filnamn_clean = utvardera_fil.filnamn_clean()
+                            self.label_kontrollerad_fil["text"] = filnamn_clean
                             berper = KontrolleraBerper(sheet, filnamn_clean, filplats)
                             berper = berper.validera()
                             hanteraoutput = HanteraOutput(berper, wb_berperdata, berperdata)
                             hanteraoutput.skriv_output()
+                            rakna_berper += 1
+                            self.label_antal_fil["text"]="Kontrollerade berpers: "+str(rakna_berper)
 
             listor = HanteraListor(lista_alla_filer, lista_berpers, lista_trasiga_filer, lista_for_stora_excelfiler, wb_berperdata)
             listor.kontrollera_listor()
@@ -77,9 +86,10 @@ class ItereraMappFil:
                 wb_berperdata.close()
 
 
-                #if rakna_berper > 0:
-                    #self.label_fil["text"] = "Klar"
-                hanteraoutput.starta()
+                if rakna_berper > 0:
+                    self.label_kontrollerad_fil["text"] = "Klar"
+                    hanteraoutput.starta()
+
             except PermissionError:
                 messagebox.showerror("OBS!", "Du har filen för Berperdata öppen, stäng ned den och börja om.")
 
